@@ -13,16 +13,18 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('dompat_stemmer');
+
         /** @var ArrayNodeDefinition $rootNode */
         $rootNode = $treeBuilder->getRootNode();
 
-        $contextsNode = $rootNode->children()->arrayNode('contexts');
         /** @var ArrayNodeDefinition $contextsNode */
+        $contextsNode = $rootNode->children()->arrayNode('contexts');
+
         $contextsNode
             ->useAttributeAsKey('locale')
-            ->scalarPrototype()->end()
-            ->info('Map locale to a driver class. Example: sk: Dompat\Stemmer\Driver\CzechDriver')
-            ->end();
+            ->scalarPrototype()->end();
+        
+        $contextsNode->info('Map locale to a driver class. Example: sk: Dompat\Stemmer\Driver\CzechDriver');
 
         return $treeBuilder;
     }
