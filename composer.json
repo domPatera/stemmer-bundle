@@ -1,0 +1,43 @@
+{
+    "name": "dompat/stemmer-bundle",
+    "description": "Symfony integration for the PHP Stemmer. Includes Twig filters, automatic driver registration and YAML configuration.",
+    "keywords": ["stemmer", "stemming", "nlp", "symfony-bundle", "twig", "extension", "search", "indexing"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dominik Patera",
+            "email": "patera@softbot.cz"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "dompat/stemmer": "^1.0",
+        "symfony/config": "^6.4 || ^7.0 || ^8.0",
+        "symfony/dependency-injection": "^6.4 || ^7.0 || ^8.0",
+        "symfony/http-kernel": "^6.4 || ^7.0 || ^8.0",
+        "symfony/yaml": "^6.4 || ^7.0 || ^8.0",
+        "twig/twig": "^3.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dompat\\StemmerBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dompat\\StemmerBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true,
+            "phpstan/extension-installer": true
+        }
+    }
+}

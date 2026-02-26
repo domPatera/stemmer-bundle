@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Dompat\StemmerBundle\Factory\StemmerFactory: ~
+    Dompat\StemmerBundle\Twig\:
+        resource: '../src/Twig/'
+
+    Dompat\Stemmer\Stemmer:
+        factory: ['@Dompat\StemmerBundle\Factory\StemmerFactory', 'createStemmer']
+        arguments:
+            $drivers: !tagged_iterator dompat.stemmer.driver
+
+    Dompat\Stemmer\Driver\:
+        resource: '../../stemmer/src/Driver/'
+        tags:
+            - { name: 'dompat.stemmer.driver', priority: -10 }
