@@ -16,13 +16,12 @@ class Configuration implements ConfigurationInterface
         /** @var ArrayNodeDefinition $rootNode */
         $rootNode = $treeBuilder->getRootNode();
 
-        $rootNode
-            ->children()
-                ->arrayNode('contexts')
-                    ->useAttributeAsKey('locale')
-                    ->scalarPrototype()->end()
-                    ->info('Map locale to a driver class. Example: sk: Dompat\Stemmer\Driver\CzechDriver')
-                ->end()
+        $contextsNode = $rootNode->children()->arrayNode('contexts');
+        /** @var ArrayNodeDefinition $contextsNode */
+        $contextsNode
+            ->useAttributeAsKey('locale')
+            ->scalarPrototype()->end()
+            ->info('Map locale to a driver class. Example: sk: Dompat\Stemmer\Driver\CzechDriver')
             ->end();
 
         return $treeBuilder;
