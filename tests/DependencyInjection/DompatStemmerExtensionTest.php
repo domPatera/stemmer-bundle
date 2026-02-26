@@ -31,6 +31,7 @@ class DompatStemmerExtensionTest extends TestCase
 
         $stemmerDefinition = $this->container->getDefinition(Stemmer::class);
         $factory = $stemmerDefinition->getFactory();
+        $this->assertIsArray($factory);
         $this->assertInstanceOf(Reference::class, $factory[0]);
         $this->assertEquals('Dompat\StemmerBundle\Factory\StemmerFactory', (string) $factory[0]);
         $this->assertEquals('createStemmer', $factory[1]);
@@ -54,6 +55,7 @@ class DompatStemmerExtensionTest extends TestCase
         $this->assertEquals(CzechDriver::class, $skDriverDefinition->getClass());
         $this->assertEquals('sk', $skDriverDefinition->getArgument('$locale'));
         
+        /** @var array<int, array{priority: int}> $tags */
         $tags = $skDriverDefinition->getTag('dompat.stemmer.driver');
         $this->assertCount(1, $tags);
         $this->assertEquals(10, $tags[0]['priority']);
@@ -69,6 +71,7 @@ class DompatStemmerExtensionTest extends TestCase
         $definition = $autoconfigured[DriverInterface::class];
         $this->assertTrue($definition->hasTag('dompat.stemmer.driver'));
         
+        /** @var array<int, array{priority: int}> $tags */
         $tags = $definition->getTag('dompat.stemmer.driver');
         $this->assertEquals(0, $tags[0]['priority']);
     }

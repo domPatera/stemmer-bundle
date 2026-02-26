@@ -13,7 +13,7 @@ class StemmerFactoryTest extends TestCase
 {
     public function testCreateStemmer(): void
     {
-        $driver = $this->createMock(DriverInterface::class);
+        $driver = $this->createStub(DriverInterface::class);
         $driver->method('getLocale')->willReturn('en');
 
         $stemmer = StemmerFactory::createStemmer([$driver]);
