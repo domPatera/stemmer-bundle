@@ -6,6 +6,7 @@ namespace Dompat\StemmerBundle\Tests\DependencyInjection;
 
 use Dompat\Stemmer\Contract\DriverInterface;
 use Dompat\Stemmer\Driver\CzechDriver;
+use Dompat\Stemmer\Driver\EnglishDriver;
 use Dompat\Stemmer\Stemmer;
 use Dompat\StemmerBundle\DependencyInjection\DompatStemmerExtension;
 use PHPUnit\Framework\TestCase;
@@ -35,6 +36,16 @@ class DompatStemmerExtensionTest extends TestCase
         $this->assertInstanceOf(Reference::class, $factory[0]);
         $this->assertEquals('Dompat\StemmerBundle\Factory\StemmerFactory', (string) $factory[0]);
         $this->assertEquals('createStemmer', $factory[1]);
+
+        // Check if drivers are registered
+        $this->assertTrue($this->container->hasDefinition(CzechDriver::class));
+        $this->assertTrue($this->container->hasDefinition(EnglishDriver::class));
+        
+        $czechDriver = $this->container->getDefinition(CzechDriver::class);
+        $this->assertTrue($czechDriver->hasTag('dompat.stemmer.driver'));
+        /** @var array<int, array{priority: int}> $tags */
+        $tags = $czechDriver->getTag('dompat.stemmer.driver');
+        $this->assertEquals(-10, $tags[0]['priority']);
     }
 
     public function testLoadCustomContexts(): void

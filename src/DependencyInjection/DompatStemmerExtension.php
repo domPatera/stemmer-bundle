@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Dompat\StemmerBundle\DependencyInjection;
 
 use Dompat\Stemmer\Contract\DriverInterface;
+use Dompat\Stemmer\Stemmer;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -38,5 +39,27 @@ class DompatStemmerExtension extends Extension
 
         $container->registerForAutoconfiguration(DriverInterface::class)
             ->addTag('dompat.stemmer.driver', ['priority' => 0]);
+
+        $this->registerDrivers($container);
+    }
+
+    private function registerDrivers(ContainerBuilder $container): void
+    {
+        $reflection = new \ReflectionClass(Stemmer::class);
+        $driverPath = dirname($reflection->getFileName() ?: '') . '/Driver';
+
+        if (!is_dir($driverPath)) {
+            return;
+        }
+
+        $loader = new YamlFileLoader($container, new FileLocator($driverPath));
+        $loader->registerClasses(
+            (new Definition())
+                ->setAutoconfigured(true)
+                ->setAutowired(true)
+                ->addTag('dompat.stemmer.driver', ['priority' => -10]),
+            'Dompat\Stemmer\Driver\\',
+            $driverPath . '/*'
+        );
     }
 }
